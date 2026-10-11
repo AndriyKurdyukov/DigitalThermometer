@@ -1,3 +1,0 @@
-../Core/Src/Gpio.c:26:9:createPin	48	static
-../Core/Src/Gpio.c:50:6:setState	8	static
-../Core/Src/Gpio.c:54:6:toggle	8	static

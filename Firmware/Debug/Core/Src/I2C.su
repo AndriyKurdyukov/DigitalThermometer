@@ -1,6 +1,0 @@
-../Core/Src/I2C.c:13:6:initI2C	16	static
-../Core/Src/I2C.c:42:19:transmitI2C_arr	16	static
-../Core/Src/I2C.c:49:19:receiveI2C_arr	16	static
-../Core/Src/I2C.c:59:10:readI2CReg	40	static
-../Core/Src/I2C.c:68:10:readI2CReg_steps	40	static
-../Core/Src/I2C.c:88:6:writeI2CReg	24	static
