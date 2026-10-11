@@ -1,0 +1,4 @@
+../Core/Src/TMP117.c:24:15:createTempSensor	0	static
+../Core/Src/TMP117.c:36:6:initSensor	8	static
+../Core/Src/TMP117.c:46:10:readRawTemp	8	static
+../Core/Src/TMP117.c:57:9:getTemperature	8	static

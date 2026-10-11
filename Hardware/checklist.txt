@@ -1,0 +1,9 @@
+- ams 1117 voltage regulator caps ref design (x)
+
+- D1 LED near voltage regulator R dimensions, R dimension ok -> ca. 2 mA (x)
+
+- uC reference design check -> additional caps for vdda needed (x)
+
+- swd debug check (x)
+
+- caps and resistors footprint checks (x)

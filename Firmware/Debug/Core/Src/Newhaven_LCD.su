@@ -1,0 +1,5 @@
+../Core/Src/Newhaven_LCD.c:22:13:createLCD	0	static
+../Core/Src/Newhaven_LCD.c:32:6:initLCD	24	static
+../Core/Src/Newhaven_LCD.c:38:6:outputToLCD	16	dynamic
+../Core/Src/Newhaven_LCD.c:46:6:clearLCD	16	static
+../Core/Src/Newhaven_LCD.c:52:6:reset	8	static
