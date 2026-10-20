@@ -8,13 +8,11 @@
 
 #include "Gpio.h"
 
-
 struct GpioStr
 {
 	GPIO_TypeDef* GPIOx;
 	uint16_t GPIO_Pin;
 };
-
 
 struct GpioStr gpioArray[3]; // statically allocated array of pins, max 3
 uint8_t currGpioArrIndex = 0; // tracking current gpio pin

@@ -43,6 +43,7 @@ void outputToLCD(NewhavenPtr display, char* text, uint8_t textLen)
 	transmitI2C_arr(displayData.mI2cAddress, textNew, textLen + 1);
 }
 
+
 void clearLCD(NewhavenPtr display)
 {
 	uint8_t arr[3] = {0x0,0x01};

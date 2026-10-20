@@ -27,8 +27,6 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx.h"
 
-//#define USE_FULL_LL_DRIVER
-
 /** @addtogroup STM32F0xx_LL_Driver
   * @{
   */

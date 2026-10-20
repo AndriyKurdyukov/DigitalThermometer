@@ -111,7 +111,6 @@ int main(void)
 	 HAL_Delay(2000);
   }
 }
-
 /**
   * @brief System Clock Configuration
   * @retval None
