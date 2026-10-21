@@ -7,7 +7,7 @@
 
 
 #include "Newhaven_LCD.h"
-#include "I2C.h"
+#include "I2C_LL.h"
 
 #include <string.h>
 
@@ -26,13 +26,13 @@ NewhavenPtr createLCD(uint8_t i2cAddress, GpioPtr rstPin)
     return &displayData;
 }
 
-extern HAL_StatusTypeDef transmitI2C_arr(uint8_t slaveAddr, uint8_t* array, uint8_t arrLen);
+extern void transmitI2C_arr_LL(uint8_t slaveAddr, uint8_t* array, uint8_t arrLen);
 extern void setState(GpioPtr gpio, GPIO_PinState PinState);
 
 void initLCD(NewhavenPtr display)
 {
 	uint8_t pData[10] = {0x0, 0x38,0x39,0x14,0x78,0x5E,0x6D,0x0C, 0x01,0x06};
-	HAL_StatusTypeDef status = transmitI2C_arr(displayData.mI2cAddress, pData, 10);
+	transmitI2C_arr_LL(displayData.mI2cAddress, pData, 10);
 }
 
 void outputToLCD(NewhavenPtr display, char* text, uint8_t textLen)
@@ -40,14 +40,14 @@ void outputToLCD(NewhavenPtr display, char* text, uint8_t textLen)
 	uint8_t textNew[textLen + 1] ;
 	memcpy ( &textNew[1], &text[0], textLen);
 	textNew[0] = 0x40;
-	transmitI2C_arr(displayData.mI2cAddress, textNew, textLen + 1);
+	transmitI2C_arr_LL(displayData.mI2cAddress, textNew, textLen + 1);
 }
 
 
 void clearLCD(NewhavenPtr display)
 {
 	uint8_t arr[3] = {0x0,0x01};
-	transmitI2C_arr(displayData.mI2cAddress, arr , 2);
+	transmitI2C_arr_LL(displayData.mI2cAddress, arr , 2);
 }
 
 void reset(NewhavenPtr display)

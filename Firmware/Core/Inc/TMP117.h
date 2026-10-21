@@ -9,7 +9,7 @@
 #define INC_TMP117_H_
 
 #include "stdint.h"
-#include "I2C.h"
+#include "I2C_LL.h"
 
 typedef struct TempSensorStruct* TempSensorPtr;
 

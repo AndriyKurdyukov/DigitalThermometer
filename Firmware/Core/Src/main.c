@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "I2C.h"
+#include "I2C_LL.h"
 #include "Newhaven_LCD.h"
 #include "TMP117.h"
 
@@ -81,7 +81,7 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
   /* Initialize all configured peripherals */
-  initI2C();
+  initI2C_LL();
   uint8_t displaySlaveAddr = 0x78;
   GpioPtr displayRstPin = createPin(GPIOA, GPIO_PIN_7);
   NewhavenPtr display = createLCD(displaySlaveAddr, displayRstPin);
@@ -91,7 +91,6 @@ int main(void)
   HAL_Delay(50);
   clearLCD(display);
   GpioPtr blinkypin = createPin(GPIOB, GPIO_PIN_1);
-  HAL_Delay(50);
   TempSensorPtr tempSensor = createTempSensor(0x90);
   initSensor(tempSensor);
   int16_t temperature_mC = 0x0;

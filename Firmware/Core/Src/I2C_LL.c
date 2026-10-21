@@ -67,8 +67,6 @@ void initI2C_LL()
  */
 void transmitI2C_arr_LL(uint8_t slaveAddr , uint8_t* array, uint8_t arrLen)
 {
-	//status = HAL_I2C_Master_Transmit(&hi2c1, slaveAddr , array, arrLen, 10);
-	//return status;
 	/*
 	 *  RM0360, p. 547
 	 * To initiate the communication, program the following parameters for the addressed slave in
@@ -78,28 +76,81 @@ void transmitI2C_arr_LL(uint8_t slaveAddr , uint8_t* array, uint8_t arrLen)
         •Transfer direction: RD_WRN
         •In case of 10-bit address read: HEAD10R bit. HEAD10R must be configure to indicate
           if the complete address sequence must be sent, or only the header in case of a
-          direction change.
+          direction change.s
         •The number of bytes to be transferred: NBYTES[7:0]. If this number is equal to or
           greater than 255 bytes, NBYTES[7:0] must initially be filled with 0xFF.
         • The user must then set the START bit in I2C_CR2 register
 	  */
 	uint8_t byteCnt = 0;
+	LL_I2C_EnableAutoEndMode(I2C1); // enable automatic stop setting after nbytes have been transmitted
 	LL_I2C_SetSlaveAddr(I2C1, slaveAddr);
 	LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_WRITE);
 	LL_I2C_SetTransferSize(I2C1, arrLen);
 	LL_I2C_GenerateStartCondition(I2C1);
 	// RM0360, p. 584 for  I2C interrupt and status register (I2C_ISR), TXE , TXIS, TC(transfer complete)
 
-	//TODO while less than NBYTES transmitted, check if I2C_ISR.TXIS == 1, if yes , write byte to I2C_TXDR
+	// while less than NBYTES transmitted, check if I2C_ISR.TXIS == 1, if yes , write byte to I2C_TXDR
 	// see RM0360 p.550
 	while(byteCnt < arrLen)
 	{
-	   if(LL_I2C_IsActiveFlag_TXIS(I2C1))
+	   if(LL_I2C_IsActiveFlag_TXIS(I2C1) == 1)
 	   {
 	       LL_I2C_TransmitData8(I2C1,  array[byteCnt] );
 		   byteCnt++;
 	   }
 	}
-	//TODO if autoend is set, stop is automatically generated
-	// uint32_t LL_I2C_IsActiveFlag_STOP(const I2C_TypeDef *I2Cx)
+	while(LL_I2C_IsActiveFlag_STOP(I2C1) != 1 )  //TODO add error handling
+	{
+		// busy wait until stop flag (STOPF) is set by hardware
+	}
+	LL_I2C_ClearFlag_STOP(I2C1); // clear stopf bit
+}
+
+
+/*
+ * receive given amount of bytes in blocking mode
+ */
+void receiveI2C_arr_LL(uint8_t slaveAddr, uint8_t* array, uint8_t arrLen)
+{
+	uint8_t byteCnt = 0;
+	LL_I2C_EnableAutoEndMode(I2C1); // enable automatic stop setting after nbytes have been received
+	LL_I2C_SetSlaveAddr(I2C1, slaveAddr);
+	LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_READ );
+	LL_I2C_SetTransferSize(I2C1, arrLen);
+	LL_I2C_GenerateStartCondition(I2C1);
+
+	while(byteCnt < arrLen)
+	{
+		if(LL_I2C_IsActiveFlag_RXNE(I2C1) == 1)
+		{
+			array[byteCnt] = LL_I2C_ReceiveData8(I2C1); // read byte
+			byteCnt++;
+		}
+	}
+
+	while(LL_I2C_IsActiveFlag_STOP(I2C1) != 1 )
+	{
+		// busy wait until stop flag (STOPF) is set by hardware
+	}
+	LL_I2C_ClearFlag_STOP(I2C1); // clear stopf bit
+}
+
+/*
+ *  write a 16 bit register
+ */
+void writeI2CReg_LL(uint8_t slaveAddr, uint8_t regAddr, uint16_t regSize, uint16_t regVal)
+{
+    uint8_t p[3]={regAddr, (regVal >> 8) & 0xFF, regVal & 0xFF};
+    transmitI2C_arr_LL(slaveAddr, p, 3);
+}
+
+/*
+ *  read a 16 bit register
+ */
+uint16_t readI2CReg_LL(uint8_t slvAddr, uint8_t reg)
+{
+	uint8_t pData[2];
+	transmitI2C_arr_LL(slvAddr, &reg, 1); // send the reg memory location first
+	receiveI2C_arr_LL(slvAddr, pData, 2); // read 2 bytes
+	return ((uint16_t)(pData[0]) << 8) | pData[1]; // msb is sent first
 }

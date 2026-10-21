@@ -5,7 +5,6 @@
  *      Author: andriy-pc
  */
 
-
 #include "Gpio.h"
 
 struct GpioStr

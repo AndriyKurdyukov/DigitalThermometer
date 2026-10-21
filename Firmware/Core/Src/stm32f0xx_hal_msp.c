@@ -86,23 +86,24 @@ void HAL_MspInit(void)
   */
 void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if(hi2c->Instance==I2C1)
-  {
-	  __HAL_RCC_GPIOA_CLK_ENABLE();
-	  /**I2C1 GPIO Configuration
-		PA9     ------> I2C1_SCL
-		PA10     ------> I2C1_SDA
-	   */
-	  GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
-	  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-	  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
-	  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	  /* Peripheral clock enable */
-	  __HAL_RCC_I2C1_CLK_ENABLE();
-  }
+	/**I2C1 GPIO Configuration
+			PA9     ------> I2C1_SCL
+			PA10     ------> I2C1_SDA
+	 */
+/*	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	if(hi2c->Instance==I2C1)
+	{
+		__HAL_RCC_GPIOA_CLK_ENABLE();
+
+		GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
+		GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+		GPIO_InitStruct.Pull = GPIO_NOPULL;
+		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+		GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+		/* Peripheral clock enable */
+		//__HAL_RCC_I2C1_CLK_ENABLE();
+	//}
 
 }
 
