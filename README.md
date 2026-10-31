@@ -15,4 +15,4 @@ A Newhaven NHD-C0220BIZ LCD display was used for displaying temperature values, 
 ## Firmware
 A simple while loop reading out values from temperature sensor and sending them to the display, no RTOS used and everything in blocking mode. Since I2C HAL bloats memory so much, I rewrote it using Lower Layer. Maybe I should do the same for the GPIO.
 
-Fimrware can be flashed on the microcontroller with any Nucleo board using ST-Link over SWD. 
+Fimrware can be flashed on the microcontroller with any Nucleo board using ST-Link over SWD(see connector J3 on the board). 
